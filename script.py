@@ -25,7 +25,7 @@ class durability_equation:
         self.Nc0 = 10**7
 
     def calculate_isequal(self):
-        return 1-self.LP/self.RP < 0.1
+        return abs(self.RP-self.LP)/self.RP < 0.15
     def calculate_LP(self):
         self.LP = self.sigma_max**self.m * 3600 * self.i * self.zsh * self.tch
     def calculate_sigma_max(self):
@@ -90,10 +90,9 @@ class durability_equation:
         self.divex = int(input("Enter divex: "))
 
     def print_detailed_calculation(self):
-        """Детальный вывод расчета для отладки"""
+
         print("\nДЕТАЛЬНЫЙ РАСЧЕТ:")
-        print(
-            f"σ_p = σ_0 + F/(2bδ) + σ_ce = {self.sigma_0} + {self.F}/(2×{self.b}×{self.delta}) + {self.sigma_ce} = {self.sigma_p:.2f} МПа")
+        print(f"σ_p = σ_0 + F/(2bδ) + σ_ce = {self.sigma_0} + {self.F}/(2×{self.b}×{self.delta}) + {self.sigma_ce} = {self.sigma_p:.2f} МПа")
         print(f"σ_max = σ_p + σ_i = {self.sigma_p:.2f} + {self.sigma_i:.2f} = {self.sigma_max:.2f} МПа")
         print(f"LP = σ_max^m × 3600 × i × z_sh = {self.sigma_max:.2f}^{self.m} × 3600 × {self.i} × {self.zsh} * {self.tch}")
         print(f"LP = {self.sigma_max ** self.m:.2e} × 3600 × {self.i} × {self.zsh} = {self.LP:.2e}")
@@ -120,19 +119,55 @@ class durability_equation:
         self.sigma_x = 2.5
         self.ix = 3
         self.divex = 1
+
+    def print_test_data_1(self):
+        """Аккуратный вывод тестовых данных 1"""
+        print("=" * 50)
+        print("ТЕСТОВЫЕ ДАННЫЕ 1: СТАНДАРТНЫЙ СЛУЧАЙ")
+        print("=" * 50)
+
+        print("\nГЕОМЕТРИЧЕСКИЕ ПАРАМЕТРЫ:")
+        print(f"   Толщина ремня (δ): {self.delta} мм")
+        print(f"   Диаметр малого шкива (D₁): {self.D1} мм")
+        print(f"   Ширина ремня (b): {self.b} мм")
+        print(f"   Отношение D₁/δ: {self.D1 / self.delta}")
+
+        print("\nМЕХАНИЧЕСКИЕ ПАРАМЕТРЫ:")
+        print(f"   Модуль упругости (E_i): {self.E_i} МПа")
+        print(f"   Начальное напряжение (σ₀): {self.sigma_0} МПа")
+        print(f"   Сила тяги (F): {self.F} Н")
+
+        print("\nКИНЕМАТИЧЕСКИЕ ПАРАМЕТРЫ:")
+        print(f"   Число пробегов ремня (i): {self.i} пробегов/сек")
+        print(f"   Число пробегов при σ_max (i1): {self.i1} пробегов/сек")
+        print(f"   Число шкивов (z_sh): {self.zsh} шт.")
+        print(f"   Передаточное число (u): {self.u}")
+
+        print("\nРЕЖИМЫ РАБОТЫ:")
+        print(f"   Способ определения долговечности (case): {self.case}")
+        print(f"   Способ определения Cи (case1): {self.case1}")
+
+        print("\nНАПРЯЖЕНИЯ И ДОПОЛНИТЕЛЬНЫЕ ПАРАМЕТРЫ:")
+        print(f"   Напряжение изгиба (σ_i): {self.sigma_i} МПа")
+        print(f"   Напряжение режима (σ_x): {self.sigma_x} МПа")
+        print(f"   Число пробегов при σ_x (i_x): {self.ix} пробегов/сек")
+        print(f"   Коэффициент времени работы (1/e_x): {self.divex}")
+
+        print("\n" + "=" * 50)
 de = durability_equation()
 print('Выберите тип проверки (0 - из исходных данных, 1 - из своих)')
 case = int(input())
 if case == 0:
     de.load_test_data_1()
+    de.print_test_data_1()
 else:
     de.load_user_data()
 de.calculate_all()
 print('ВЫВОД:')
 if de.calculate_isequal() == True:
-    print('Правая и левая части равны в пределах допустимой погрешности')
+    print('Правая и левая части равны в пределах допустимой погрешности, расчет достоверен.')
 else:
-    print('равая и левая части не равны в пределах допустимой погрешности. Возможно, введенные данные не верны')
+    print('Правая и левая части не равны в пределах допустимой погрешности. Возможно, введенные данные некорректны в нашем случае.')
 print('Вывести детали (0 - нет, 1 - да)')
 case = int(input())
 if case == 0:
