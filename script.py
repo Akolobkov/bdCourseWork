@@ -71,23 +71,48 @@ class durability_equation:
         self.calculate_tch()
         self.calculate_LP()
         self.calculate_RP()
+
     def load_user_data(self):
-        self.sigma_i = int(input("Enter sigma_i: "))
-        self.sigma_0 = int(input("Enter sigma_0: "))
-        self.F = int(input("Enter F: "))
-        self.b = int(input("Enter b: "))
-        self.delta = int(input("Enter delta: "))
-        self.E_i = int(input("Enter E_i: "))
-        self.D1 = int(input("Enter D1: "))
-        self.i = int(input("Enter i: "))
-        self.zsh = int(input("Enter zsh: "))
-        self.case = int(input("Enter case: "))
-        self.u = int(input("Enter u: "))
-        self.case1 = int(input("Enter case1: "))
-        self.i1 = int(input("Enter i1: "))
-        self.sigma_x = int(input("Enter sigma_x: "))
-        self.ix = int(input("Enter ix: "))
-        self.divex = int(input("Enter divex: "))
+        print("=" * 60)
+        print("ВВОД ДАННЫХ ДЛЯ РАСЧЕТА ДОЛГОВЕЧНОСТИ РЕМНЯ")
+        print("=" * 60)
+
+        print("\n📏 ГЕОМЕТРИЧЕСКИЕ ПАРАМЕТРЫ:")
+        self.delta = float(input("Толщина ремня, δ (мм): "))
+        self.D1 = float(input("Диаметр малого шкива, D₁ (мм): "))
+        self.b = float(input("Ширина ремня, b (мм): "))
+
+        print("\n⚙️ МЕХАНИЧЕСКИЕ ПАРАМЕТРЫ:")
+        self.E_i = float(input("Модуль упругости при изгибе, E_i (МПа): "))
+        self.sigma_0 = float(input("Начальное напряжение растяжения, σ₀ (МПа): "))
+        self.F = float(input("Сила тяги, F (Н): "))
+
+        print("\n🔄 КИНЕМАТИЧЕСКИЕ ПАРАМЕТРЫ:")
+        self.i = float(input("Число пробегов ремня в секунду, i (1/сек): "))
+        self.zsh = int(input("Число шкивов в передаче, z_sh: "))
+        self.u = float(input("Передаточное число, u: "))
+
+        print("\n🎯 РЕЖИМЫ РАБОТЫ И КОЭФФИЦИЕНТЫ:")
+        print("Способ определения долговечности:")
+        print("  0 - по формуле, 1 - по таблице")
+        self.case = int(input("case: "))
+
+        print("Способ определения коэффициента Cи:")
+        print("  0 - по формуле, 1 - по таблице")
+        self.case1 = int(input("case1: "))
+
+        print("\n📊 ПАРАМЕТРЫ ДЛЯ РАСЧЕТА КОЭФФИЦИЕНТОВ:")
+        self.sigma_i = float(input("Напряжение изгиба, σ_i (МПа): "))
+        self.i1 = float(input("Число пробегов при максимальном напряжении, i1 (1/сек): "))
+
+        print("\n🔧 ПАРАМЕТРЫ ДЛЯ РАСЧЕТА Cp (переменный режим):")
+        self.sigma_x = float(input("Напряжение дополнительного режима, σ_x (МПа): "))
+        self.ix = float(input("Число пробегов при σ_x, i_x (1/сек): "))
+        self.divex = float(input("Доля времени работы на режиме σ_x, 1/e_x: "))
+
+        print("\n" + "=" * 60)
+        print("ВВОД ДАННЫХ ЗАВЕРШЕН!")
+        print("=" * 60)
 
     def print_detailed_calculation(self):
 
